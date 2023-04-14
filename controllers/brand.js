@@ -47,28 +47,26 @@ class Controller {
   put(req, res) {
     let { id } = req.params;
     let body = req.body;
-    Model.findOneAndUpdate({ _id:id }, { $set: body})
-    .then((response) => {
-      console.log(response);
-      res.status(200).send({ success: true, response });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-
+    Model.findOneAndUpdate({ _id: id }, { $set: body })
+      .then((response) => {
+        console.log(response);
+        res.status(200).send({ success: true, response });
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
   }
 
   //delete a brand
   delete(req, res) {
-    let {id} = req.params;
-    Model.findOneAndDelete({ _id:id})
-    .then((response) => {
-      console.log(response);
-      res.status(200).send({ success: true, response });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-
+    let { id } = req.params;
+    Model.findOneAndDelete({ _id: id })
+      .then((response) => {
+        console.log(response);
+        res.status(200).send({ success: true, response });
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
   }
 }

@@ -3,7 +3,7 @@ const router = express.Router();
 import controller from '../controllers/brand.js';
 
 
-router.get('/', controller.getAll);
+router.get('/all', controller.getAll);
 router.get('/:id', controller.getById);
 router.post('/', controller.post);
 router.put('/:id', controller.put);

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
+
 const productSchema = new Schema(
   {
     name: {
@@ -42,19 +43,19 @@ const productSchema = new Schema(
     },
     brand: {
       type: Schema.Types.ObjectId,
-      ref: "brand",
+      ref: "Brand",
       required: [true, "Please add the product's brand"],
     },
     category: [
       {
         type: Schema.Types.ObjectId,
-        ref: "category",
+        ref: "Category",
         required: [true, "Please add a category"],
       },
     ],
     image: {
       type: Schema.Types.ObjectId,
-      ref: "file",
+      ref: "File",
       required: [true, "Please add an image"],
     },
     isDeleted: {
@@ -83,7 +84,9 @@ const productSchema = new Schema(
 );
 
 productSchema.pre(["find", "findOne"], function () {
-  this.populate(["brand", "category", "image"]);
+  this.populate(["brand", "category",
+   //"image"
+  ]);
 });
 
 const Product = model("Product", productSchema);
