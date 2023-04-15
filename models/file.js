@@ -15,4 +15,5 @@ const fileSchema = new Schema({
 });
 
 const File = model('File', fileSchema);
-module.exports = File;
+
+export default File;

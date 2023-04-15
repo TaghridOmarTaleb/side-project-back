@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-
 const productSchema = new Schema(
   {
     name: {
@@ -19,22 +18,14 @@ const productSchema = new Schema(
       type: String,
       required: true,
       minlength: 20,
-      maxlength: 70,
-      match: [
-        /^[A-Za-z\s]+$/,
-        "Description must contain only letters and spaces",
-      ],
+      
     },
     price: {
       type: Number,
       required: [true, "Please add the price"],
       min: [0, "Price cannot be negative"],
-      validate: {
-        validator: function (inputValue) {
-          return inputValue >= 0 && inputValue <= 500;
-        },
-        message: (props) => `${props.value} is not a valid price.`,
-      },
+      get: (v) => Math.round(v), //for old products (read value)
+      set: (v) => Math.round(v), // set value
     },
     currency: {
       type: String,
@@ -50,7 +41,16 @@ const productSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Category",
-        required: [true, "Please add a category"],
+        validate: {
+          isAsync: true,
+          validator: function (v, callback) {
+            setTimeout(() => {
+              const result = v && v.length > 0;
+              callback(result);
+            }, 1000);
+          },
+          message: "A product should have at least one category",
+        },
       },
     ],
     image: {
@@ -73,7 +73,7 @@ const productSchema = new Schema(
         },
         message: (props) =>
           `${props.value} is not a valid expiry date in the format dd-mm-yy.`,
-          //use calender in the frontend!
+        //use calender in the frontend!
       },
     },
   },
@@ -84,8 +84,10 @@ const productSchema = new Schema(
 );
 
 productSchema.pre(["find", "findOne"], function () {
-  this.populate(["brand", "category",
-   //"image"
+  this.populate([
+    "brand",
+    "category",
+    //"image"
   ]);
 });
 

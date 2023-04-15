@@ -1,8 +1,8 @@
 import Model from "../models/brand.js";
 
-class Controller {
+// export default class controller {
   //get all brands
-  getAll(req, res, next) {
+  export function getAll(req, res, next) {
     Model.find()
       .then((response) => {
         console.log(response);
@@ -14,7 +14,7 @@ class Controller {
   }
 
   //get a brand by id
-  getById(req, res, next) {
+  export function getById(req, res, next) {
     console.log("params:", req.params);
     let { id } = req.params;
     Model.findOne({ _id: id })
@@ -28,7 +28,7 @@ class Controller {
   }
 
   //create a new brand
-  post(req, res, next) {
+  export function post(req, res, next) {
     let body = req.body;
     console.log(body);
     let doc = new Model(body);
@@ -44,10 +44,10 @@ class Controller {
   }
 
   //update a brand
-  put(req, res) {
+  export function put(req, res) {
     let { id } = req.params;
     let body = req.body;
-    Model.findOneAndUpdate({ _id: id }, { $set: body })
+    Model.findOneAndUpdate({ _id: id }, { $set: body }, { new: true})
       .then((response) => {
         console.log(response);
         res.status(200).send({ success: true, response });
@@ -58,7 +58,7 @@ class Controller {
   }
 
   //delete a brand
-  delete(req, res) {
+  export function remove (req, res) {
     let { id } = req.params;
     Model.findOneAndDelete({ _id: id })
       .then((response) => {
@@ -69,4 +69,10 @@ class Controller {
         res.status(500).send(error);
       });
   }
-}
+// }
+
+const controller = {remove, getAll, getById, put, post};
+export default controller;
+
+
+

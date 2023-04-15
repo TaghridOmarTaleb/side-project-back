@@ -6,8 +6,7 @@ import controller from '../controllers/user.js';
 router.get('/all', controller.getAll);
 router.get('/:id', controller.getById);
 router.post('/', controller.post);
-router.put('/:id', controller.put);
-router.delete('/:id', controller.delete);
+router.delete('/:id', controller.deleteUser);
 
 
 export default router;

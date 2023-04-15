@@ -1,8 +1,8 @@
 import Model from "../models/user.js";
 
-class Controller {
+
   //get all users 
-  getAll(req, res, next) {
+ export function getAll(req, res, next) {
     Model.find()
       .then((response) => {
         console.log(response);
@@ -14,7 +14,7 @@ class Controller {
   }
 
   //get a user by id
-  getById(req, res, next) {
+  export function getById(req, res, next) {
     console.log("params:", req.params);
     let { id } = req.params;
     Model.findOne({ _id: id })
@@ -28,7 +28,7 @@ class Controller {
   }
 
   //create a new user
-  post(req, res, next) {
+  export function post(req, res, next) {
     let body = req.body;
     console.log(body);
     let doc = new Model(body);
@@ -45,7 +45,7 @@ class Controller {
 
   
   //delete a user
-  delete(req, res) {
+  export function  deleteUser(req, res) {
     let { id } = req.params;
     Model.findOneAndDelete({ _id: id })
       .then((response) => {
@@ -55,7 +55,8 @@ class Controller {
       .catch((error) => {
         res.status(500).send(error);
       });
-  }
+    }
 
  
-}
+const controller = { deleteUser, post, getById, getAll};
+export default controller;

@@ -7,36 +7,28 @@ import categoryRoutes from "./routes/category.js";
 import fileRoutes from "./routes/file.js";
 import productRoutes from "./routes/product.js";
 import userRoutes from "./routes/user.js";
+import helmet from "helmet";
+import debug from "debug";
 
 dotenv.config();
 
 await connectDB();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 5000;
 
 const app = new express();
 
+const Debugger = debug("app:startUp");
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
-  // combined
+  Debugger("morgan enabled!");
 }
-
-// if (process.env.NODE_ENV === "development") {
-//   app.use(
-//     morgan(function (tokens, req, res) {
-//       return [
-//         tokens.method(req, res),
-//         tokens.url(req, res),
-//         tokens.status(req, res),
-//         tokens["response-time"](req, res),
-//         "ms",
-//       ].join(" ");
-//     })
-//   );
-// }
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("static"));
+app.use(helmet());
 
 app.get("/", (req, res) => {
   res.send("API is running!");

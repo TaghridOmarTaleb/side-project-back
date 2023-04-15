@@ -9,7 +9,7 @@ router.get('/:id', controller.getById);
 router.post('/', controller.post);
 router.put('/:id', controller.put);
 router.put('/soft/:id', controller.softDelete);
-router.delete('/:id', controller.delete);
+router.delete('/:id', controller.deleteProduct);
 
 
 export default router;

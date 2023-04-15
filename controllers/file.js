@@ -1,8 +1,8 @@
 import Model from "../models/file.js";
 
-class Controller {
+// class controller {
   //get all files
-  getAll(req, res, next) {
+  export function getAll(req, res, next) {
     Model.find()
       .then((response) => {
         console.log(response);
@@ -16,7 +16,7 @@ class Controller {
   
 
   //get a file by id
-  getById(req, res, next) {
+  export function   getById(req, res, next) {
     console.log("params:", req.params);
     let { id } = req.params;
     Model.findOne({ _id: id })
@@ -30,7 +30,7 @@ class Controller {
   }
 
   //create a new file
-  post(req, res, next) {
+  export function   post(req, res, next) {
     let body = req.body;
     console.log(body);
     let doc = new Model(body);
@@ -46,10 +46,10 @@ class Controller {
   }
 
   //update a file
-  put(req, res) {
+  export function   put(req, res) {
     let { id } = req.params;
     let body = req.body;
-    Model.findOneAndUpdate({ _id: id }, { $set: body })
+    Model.findOneAndUpdate({ _id: id }, { $set: body }, { new: true})
       .then((response) => {
         console.log(response);
         res.status(200).send({ success: true, response });
@@ -60,7 +60,7 @@ class Controller {
   }
 
   //delete a file
-  delete(req, res) {
+  export function  deleteFile(req, res) {
     let { id } = req.params;
     Model.findOneAndDelete({ _id: id })
       .then((response) => {
@@ -73,4 +73,6 @@ class Controller {
   }
 
   
-}
+  const controller = {deleteFile, getAll, getById, put, post};
+
+export default controller;
