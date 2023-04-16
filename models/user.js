@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const { Schema, model } = mongoose;
 
@@ -31,7 +31,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      unique: true,
+      unique: [true, "User is already registered. Email is used"],
       required: [true, "Email address is required"],
       trim: true,
       match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i, "Invalid email address"],
@@ -61,16 +61,6 @@ const userSchema = new Schema(
           },
           message: "Password must be at least 8 characters long",
         },
-        {
-          validator: function (password, inputValue) {
-            const firstName = inputValue.firstName;
-            const lastName = inputValue.lastName;
-            return !(
-              password.includes(firstName) || password.includes(lastName)
-            );
-          },
-          message: "Password cannot contain the first or last name",
-        },
       ],
     },
     isLoggedIn: {
@@ -84,41 +74,13 @@ const userSchema = new Schema(
   }
 );
 
-// userSchema.pre("save", async function () {
-//   if (this.isModified("password")) {
-//     const saltRounds = 10;
-//     const hash = await bcrypt.hash(this.password, saltRounds);
-//     this.password = hash;
-//     validateUser(hash, this.password);
-//   }})
-
-//   function validateUser(hash, password) {
-//     bcrypt
-//       .compare(password, hash)
-//       .then((res) => {
-//         console.log(res);
-//       })
-//       .catch((err) => console.error(err.message));
-//   }
-// });
-
-// userSchema.post("save", async function(){
-// //assure if its the same pass
-// } )
-// // assuming you have a User model
-// app.post('/login', async (req, res) => {
-//   const { email, password } = req.body;
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     return res.status(401).json({ message: 'Invalid email or password' });
-//   }
-//   const match = await user.validateUser(password);
-//   if (!match) {
-//     return res.status(401).json({ message: 'Invalid email or password' });
-//   }
-//   // user has successfully authenticated
-//   // generate and return a JWT token or session cookie
-// });
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { _id: this._id, role: this.role },
+    process.env.jwtPrivateKey
+  );
+  return token;
+};
 
 const User = model("User", userSchema);
 export default User;

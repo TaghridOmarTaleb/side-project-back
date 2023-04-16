@@ -1,18 +1,13 @@
 import express from "express";
 const router = express.Router();
-import controller from '../controllers/brand.js';
-// import { getAll, getById, post, put, remove } from "../controllers/brand.js";
+import controller from "../controllers/brand.js";
+import authorization from "../middelware/authorization.js";
+import admin from "../middelware/admins.js";
 
-router.get('/all', controller.getAll);
-router.get('/:id', controller.getById);
-router.post('/', controller.post);
-router.put('/:id', controller.put);
-router.delete('/:id', controller.remove);
-
-// router.get("/all", getAll);
-// router.get("/:id", getById);
-// router.post("/", post);
-// router.put("/:id", put);
-// router.delete("/:id", remove);
+router.get("/all", controller.getAll);
+router.get("/:id", controller.getById);
+router.post("/", authorization, admin, controller.post);
+router.put("/:id", authorization, admin, controller.put);
+router.delete("/:id", authorization, admin, controller.remove);
 
 export default router;
