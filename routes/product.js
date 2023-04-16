@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import controller from "../controllers/product.js";
 import authorization from "../middelware/authorization.js";
+import admin from "../middelware/admins.js";
 
 router.get("/all", controller.getAll);
 router.get("/", controller.get);

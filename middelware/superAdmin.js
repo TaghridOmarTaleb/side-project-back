@@ -7,3 +7,5 @@ function superAdmin(req, res, next) {
 
   next();
 }
+
+export default superAdmin;

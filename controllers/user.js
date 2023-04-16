@@ -31,7 +31,6 @@ export function getById(req, res, next) {
 export async function get(req, res) {
   try {
     const user = await Model.findById(req.user._id);
-
     res.send(user);
   } catch (error) {
     res.status(500).send(error);

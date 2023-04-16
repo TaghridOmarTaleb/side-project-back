@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import controller from "../controllers/user.js";
 import authorization from "../middelware/authorization.js";
+import admin from "../middelware/admins.js";
 import superAdmin from "../middelware/superAdmin.js";
 
 router.get("/all", authorization, admin, superAdmin, controller.getAll);
