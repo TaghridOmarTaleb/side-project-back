@@ -18,7 +18,6 @@ const productSchema = new Schema(
       type: String,
       required: true,
       minlength: 20,
-      
     },
     price: {
       type: Number,
@@ -75,6 +74,10 @@ const productSchema = new Schema(
           `${props.value} is not a valid expiry date in the format dd-mm-yy.`,
         //use calender in the frontend!
       },
+    },
+    image: {
+      type: Buffer, //Data represented in binary form
+      required: true,
     },
   },
   {

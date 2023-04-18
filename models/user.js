@@ -76,11 +76,22 @@ const userSchema = new Schema(
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, role: this.role },
+    { _id: this._id, role: this.role , isLoggedIn: this.isLoggedIn },
     process.env.jwtPrivateKey
   );
   return token;
 };
+
+userSchema.methods.setIsLoggedIn = async function() {
+  this.isLoggedIn = true;
+  await this.save();
+};
+
+userSchema.methods.setRoleAdmin = async function() {
+  this.role == "admin";
+  await this.save();
+};
+
 
 const User = model("User", userSchema);
 export default User;

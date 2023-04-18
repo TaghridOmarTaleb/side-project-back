@@ -12,6 +12,7 @@ import helmet from "helmet";
 import debug from "debug";
 import cors from "cors";
 
+
 dotenv.config();
 
 await connectDB();
@@ -43,6 +44,7 @@ app.use("/files", fileRoutes);
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
+
 
 app.listen(
   PORT,

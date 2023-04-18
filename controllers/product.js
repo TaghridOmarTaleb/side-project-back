@@ -1,4 +1,5 @@
 import Model from "../models/product.js";
+import multer from "multer";
 
 //get all products (for superAdmin and admin)
 export function getAll(req, res, next) {
@@ -15,9 +16,17 @@ export function getAll(req, res, next) {
 
 //get all available products (for admins and user)
 export function get(req, res, next) {
+  const pageNumber = req.query.pageNumber || 1;
+  const pageSize = req.query.pageSize || 10;
+
+  if (pageNumber < 1 || isNaN(pageNumber)) {
+    res.status(400).send("Invalid pageNumber");
+    return;
+  }
+
   Model.find({ isDeleted: false })
-    // .skip((pageNumber - 1) * pageSize)
-    // .limit(pageSize)
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
     .sort({ name: 1 })
     .then((response) => {
       console.log(response);
@@ -87,26 +96,30 @@ export function getById(req, res, next) {
 
 
 //create a new product
-export function post(req, res, next) {
-  let body = req.body;
-  console.log(body);
-  let doc = new Model(body);
-  doc
-    .save()
-    .then((response) => {
-      console.log(response);
-      res.status(200).send({ success: true, response });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-}
+export async function post(req, res, next) {
+const { name, description, price, currency, brand, category, expiryDate } =
+  req.body;
+  let doc = new Model({
+  name,
+  description,
+  price,
+  currency, brand, category, expiryDate,
+  image: req.file.buffer
+});
+try {
+// doc.validate();
+  await doc.save();
+  res.status(201).send(doc);
+} catch (err) {
+  res.status(400).send(err);
+}}
+
 
 //update a product
 export function put(req, res) {
   let { id } = req.params;
   let body = req.body;
-  Model.findOneAndUpdate({ _id: id }, { $set: body }, { new: true})
+  Model.findOneAndUpdate({ _id: id }, { $set: body }, { new: true })
     .then((response) => {
       console.log(response);
       res.status(200).send({ success: true, response });
@@ -141,6 +154,7 @@ export function softDelete(req, res) {
       res.status(500).send(error);
     });
 }
+
 const controller = {
   deleteProduct,
   getAll,
