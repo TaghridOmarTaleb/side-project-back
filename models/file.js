@@ -11,7 +11,6 @@ const fileSchema = new Schema({
    destination: String
 }, {
    collection: 'files',
-   timestamps: true
 });
 
 const File = model('File', fileSchema);

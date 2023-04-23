@@ -7,7 +7,7 @@ const categorySchema = new Schema(
       type: String,
       required: [true, "Please add the category's name"],
       trim: true,
-      minlength: [10, "Name must be at least 10 characters"],
+      // minlength: [10, "Name must be at least 10 characters"],
       maxlength: [30, "Name cannot be more than 30 characters"],
       match: [
         /^[A-Z][A-Za-z\s]+$/,
@@ -15,16 +15,14 @@ const categorySchema = new Schema(
       ],
     },
     slug: {
-      type: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: [40, "Slug cannot be more than 40 characters"],
-        match: [
-          /^[a-zA-Z_-]+$/,
-          "Slug must only contain letters, underscores, and dashes",
-        ],
-      },
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [40, "Slug cannot be more than 40 characters"],
+      match: [
+        /^[a-zA-Z_-]+$/,
+        "Slug must only contain letters, underscores, and dashes",
+      ],
     },
   },
   {

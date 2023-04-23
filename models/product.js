@@ -7,12 +7,7 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please add the name of the product"],
       trim: true,
-      minlength: [10, "Name must be at least 10 characters"],
-      maxlength: [30, "Name cannot be more than 30 characters"],
-      match: [
-        /^[A-Z][A-Za-z\s]+$/,
-        "Name must start with a capital letter and only contain letters and spaces",
-      ],
+      maxlength: [30, "Name cannot be more than 30 characters"], 
     },
     description: {
       type: String,
@@ -45,7 +40,9 @@ const productSchema = new Schema(
           validator: function (v, callback) {
             setTimeout(() => {
               const result = v && v.length > 0;
-              callback(result);
+              if (typeof callback === "function") {
+                callback(result);
+              }
             }, 1000);
           },
           message: "A product should have at least one category",
@@ -54,30 +51,16 @@ const productSchema = new Schema(
     ],
     image: {
       type: Schema.Types.ObjectId,
-      ref: "File",
-      required: [true, "Please add an image"],
+      ref: 'File'
     },
     isDeleted: {
       type: Boolean,
       default: false,
     },
+
     expiryDate: {
       type: Date,
       required: [true, "Please add the expiry date of the product"],
-      validate: {
-        validator: function (inputValue) {
-          const regex = /^\d{2}-\d{2}-\d{4}$/;
-          const expiryDate = new Date(inputValue);
-          return regex.test(inputValue) && expiryDate.getTime() > Date.now();
-        },
-        message: (props) =>
-          `${props.value} is not a valid expiry date in the format dd-mm-yy.`,
-        //use calender in the frontend!
-      },
-    },
-    image: {
-      type: Buffer, //Data represented in binary form
-      required: true,
     },
   },
   {
@@ -87,11 +70,7 @@ const productSchema = new Schema(
 );
 
 productSchema.pre(["find", "findOne"], function () {
-  this.populate([
-    "brand",
-    "category",
-    //"image"
-  ]);
+  this.populate(["brand", "category", "image"]);
 });
 
 const Product = model("Product", productSchema);
