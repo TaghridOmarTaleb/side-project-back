@@ -27,17 +27,29 @@ export function getById(req, res, next) {
     });
 }
 
+// // get all admins
+// export function getAllAdmins(req, res, next) {
+//   Model.find({ role: "admin" })
+//     .then((response) => {
+//       console.log(response);
+//       res.status(200).send({ success: true, response });
+//     })
+//     .catch((error) => {
+//       res.status(500).send(error);
+//     });
+// }
+
 // get all admins
-export function getAllAdmins(req, res, next) {
-  Model.find({ role: "admin" })
-    .then((response) => {
-      console.log(response);
-      res.status(200).send({ success: true, response });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+export async function getAllAdmins(req, res, next) {
+  try {
+    const response = await Model.find({ role: "admin" });
+    console.log(response);
+    res.status(200).send({ success: true, response });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 }
+
 
 //identifier a user
 export async function get(req, res) {
