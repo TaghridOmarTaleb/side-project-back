@@ -1,10 +1,9 @@
 import Model from "../models/user.js";
 import bcrypt from "bcrypt";
 
-
 //get all users
 export function getAll(req, res, next) {
-  Model.find({role: "user"})
+  Model.find({ role: "user" })
     .then((response) => {
       console.log(response);
       res.status(200).send({ success: true, response });
@@ -85,8 +84,6 @@ export async function post(req, res, next) {
   }
 }
 
-
-
 // create an admin
 export async function postAdmin(req, res) {
   const { email, password, firstName, lastName } = req.body;
@@ -125,8 +122,6 @@ export async function postAdmin(req, res) {
   }
 }
 
-
-
 //delete a user
 export function deleteUser(req, res) {
   let { id } = req.params;
@@ -145,7 +140,7 @@ export function deleteAdmin(req, res) {
   const { id } = req.params;
   Model.findOneAndDelete({ _id: id, role: "admin" })
     .then((response) => {
-      console.log(response);
+      console.log("response", response);
       res.status(200).send({ success: true, response });
     })
     .catch((error) => {
