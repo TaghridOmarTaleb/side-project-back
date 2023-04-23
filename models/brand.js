@@ -6,11 +6,10 @@ const brandSchema = new Schema({
        type: String,
        required: [true, "Please add the brand's name"],
        trim: true,
-       minlength: [10, "Description must be at least 10 characters"],
        maxlength: [30, "Name cannot be more than 30 characters"],
        match: [
-        /^[A-Z][A-Za-z\s]+$/,
-        "Name must start with a capital letter and only contain letters and spaces",
+        /^[A-Z]/,
+        "Name must start with a capital letter",
       ],
    },
   

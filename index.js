@@ -7,7 +7,7 @@ import categoryRoutes from "./routes/category.js";
 import fileRoutes from "./routes/file.js";
 import productRoutes from "./routes/product.js";
 import userRoutes from "./routes/user.js";
-import authRoutes from "./routes/auth.js";
+// import authRoutes from "./controllers/auth.js";
 import helmet from "helmet";
 import debug from "debug";
 import cors from "cors";
@@ -17,7 +17,7 @@ dotenv.config();
 
 await connectDB();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 const app = new express();
 
@@ -43,7 +43,7 @@ app.use("/categories", categoryRoutes);
 app.use("/files", fileRoutes);
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
-app.use("/auth", authRoutes);
+// app.use("/auth", authRoutes);
 
 
 app.listen(

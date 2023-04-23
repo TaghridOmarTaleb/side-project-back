@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import controller from "../controllers/brand.js";
 import authorization from "../middelware/authorization.js";
-import admin from "../middelware/admins.js";
+import admin from "../middelware/authorization.js";
 
 router.get("/all", controller.getAll);
 router.get("/:id", controller.getById);
