@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
     "start": "nodemon index.js",
-    "debug": "DEBUG=app:* nodemon index.js"
+    "debug": "DEBUG=app:* nodemon index.js",
+    "install-server": "cd backend && npm install",
+    "start-server": "cd backend && node app.js"
   },
   "author": "",
   "license": "ISC",

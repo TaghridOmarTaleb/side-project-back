@@ -7,7 +7,6 @@ import categoryRoutes from "./routes/category.js";
 import fileRoutes from "./routes/file.js";
 import productRoutes from "./routes/product.js";
 import userRoutes from "./routes/user.js";
-// import authRoutes from "./controllers/auth.js";
 import helmet from "helmet";
 import debug from "debug";
 import cors from "cors";
@@ -17,7 +16,7 @@ dotenv.config();
 
 await connectDB();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const app = new express();
 
@@ -33,6 +32,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("static"));
 app.use(helmet());
 app.use(cors());
+// app.use(bodyParser.json());
+// app.use(express.raw());
 
 app.get("/", (req, res) => {
   res.send("API is running!");
@@ -43,7 +44,6 @@ app.use("/categories", categoryRoutes);
 app.use("/files", fileRoutes);
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
-// app.use("/auth", authRoutes);
 
 
 app.listen(

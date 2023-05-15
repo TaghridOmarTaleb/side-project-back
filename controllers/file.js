@@ -31,8 +31,15 @@ export function getById(req, res, next) {
 export function post(req, res, next) {
   console.log(req.file);
   let { filename: name, mimetype: type } = req.file || {};
-  let extension = name ? name.split(".").pop() : "";    
-  let doc = new Model({ name, type, extension, destination: "uploads" });
+  let extension = name ? name.split(".").pop() : "";
+  let doc = new Model({
+    name,
+    type,
+    extension,
+    destination: "uploads",
+
+    // images
+  });
   doc
     .save()
     .then((response) => {
@@ -50,7 +57,7 @@ export function post(req, res, next) {
 //   let files = req.files || [];
 //   let docs = files.map(file => {
 //     let { filename: name, mimetype: type } = file;
-//     let extension = name ? name.split(".").pop() : "";    
+//     let extension = name ? name.split(".").pop() : "";
 //     return new Model({ name, type, extension, destination: "uploads" });
 //   });
 //   Model.insertMany(docs)
@@ -100,6 +107,12 @@ export async function deleteFile(req, res, next) {
   }
 }
 
-const controller = { deleteFile, getAll, getById, post, updateFile };
+const controller = {
+  deleteFile,
+  getAll,
+  updateFile,
+  post,
+  getById,
+};
 
 export default controller;

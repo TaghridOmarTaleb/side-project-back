@@ -7,30 +7,32 @@ import superAdmin from "../middelware/authorization.js";
 
 router.get("/all",
  authorization, admin, 
- controller.getAll);
+controller.getAll);
+router.get("/getAllAdmins",
+//  authorization, superAdmin,
+  controller.getAllAdmins);
 router.get("/me", 
-authorization, admin, 
+
+// authorization, admin, 
 controller.get);
 router.get("/:id", 
-authorization, admin,
+// authorization, admin,
+
  controller.getById);
 router.post("/", 
-admin,
+// admin,
  controller
 .post);
 router.delete("/:id", 
-authorization, admin,
+// authorization, admin,
  controller.deleteUser);
 router.post("/addAdmin", 
-authorization, 
-superAdmin,
+// authorization, 
+// superAdmin,
  controller.postAdmin);
 router.delete("/deleteAdmin/:id", 
-authorization, superAdmin,
+// authorization, superAdmin,
  controller.deleteAdmin);
-router.get("/getAllAdmins",
- authorization, superAdmin,
-  controller.getAllAdmins);
 router.post("/login", controller.login);
 
 export default router;
